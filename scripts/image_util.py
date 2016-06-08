@@ -44,7 +44,7 @@ def save_image_for_iteration(policy_list, iteration, robot_location):
             empty_map[new_pos_row : new_pos_row + 20, new_pos_col : new_pos_col + 20] = img_map[policy_list[row][col]]
 	    
 	    if([row,col] == list(robot_location)):
-		print "FOUND THE ROBOT" 
+		#print "FOUND THE ROBOT" 
                 empty_map[new_pos_row : new_pos_row + 20, new_pos_col : new_pos_col + 20] = img_map["robot"]
 	    
     #print "printout ", "../saved_video/iteration_" ,str(iteration) ,".jpg", empty_map

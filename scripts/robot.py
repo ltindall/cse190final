@@ -180,7 +180,7 @@ class robot():
 	    self.policies.append(self.policiesFlat[i:i+columns])
 	    i += columns 
 	
-	print "PRINTING POLICIES = ",self.policies
+	#print "PRINTING POLICIES = ",self.policies
 	rospy.sleep(5)
 
 	####################
@@ -189,8 +189,8 @@ class robot():
 
 	#self.temp_map = list(itertools.chain.from_iterable(self.config['pipe_map']))
 	self.temp_map = self.config['pipe_map']
-	print "temp_map", self.temp_map
-	print "temp_map[0][0]", self.temp_map[0][0]
+	#print "temp_map", self.temp_map
+	#print "temp_map[0][0]", self.temp_map[0][0]
 	#print self.config['pipe_map']
 	#print self.config['texture_map']
         #print "temp_map[0][0]",self.config['pipe_map'][0][0]
@@ -205,7 +205,7 @@ class robot():
 	
 	self.positions = []
 	self.numValidSquares = (self.num_rows*self.num_cols) - (2*self.num_rows + 2*(self.num_cols-2))
-	print "numValidSquares: ",self.numValidSquares
+	#print "numValidSquares: ",self.numValidSquares
 	for i in range(self.num_rows):
 	    rowPositions = []
 	    for j in range(self.num_cols):  
@@ -214,7 +214,7 @@ class robot():
 		else: 
 	    	    rowPositions.append(1/self.numValidSquares)
 	    self.positions.append(rowPositions)
-	print "self.positions: ",self.positions
+	#print "self.positions: ",self.positions
 	#print "initial positions ",self.positions
 	rospy.sleep(2)
 	self.processing = False 
@@ -276,7 +276,7 @@ class robot():
 	for i in range(self.num_rows):
 	    for j in range(self.num_cols):  
 	        self.positions[i][j]=(temporary_temp_pos[i][j]/normalization_constant)
-	print "normalized positions: ",self.positions
+	#print "normalized positions: ",self.positions
 	#print "Temperature ",temperature	
 	self.temperature_publisher.publish(temperature) 
 	#rospy.sleep(2)
@@ -337,9 +337,9 @@ class robot():
 	        if(self.positions[i][j] > maxProb): 
 		    maxProb = self.positions[i][j]
 		    maxProbIndex = [i,j]
-	print "MaxProb = ",maxProb
-	print "maxProbIndex = ",maxProbIndex
 	#########################################
+	print "ROBOT HAS HIGHEST LIKELIHOOD AT INDEX: ",maxProbIndex
+        print "HIGHEST LIKELIHOOD: ",maxProb
 
 
 	"""
@@ -355,7 +355,7 @@ class robot():
 	##########################
 	# MOVE ROBOT 
 	###########################
-	print "optimal move ",self.policies[maxProbIndex[0]][maxProbIndex[1]]
+	print "OPTIMAL MOVE: ",self.policies[maxProbIndex[0]][maxProbIndex[1]]
         self.robot_move_requester(self.policy_dict[self.policies[maxProbIndex[0]][maxProbIndex[1]]]) 
         #print "Move ",self.moves[self.move_index]
 
@@ -394,7 +394,8 @@ class robot():
 		    else: 
 			prob_move = (1-self.config['prob_move_correct'])/(
 				    len(self.config['possible_moves'])-1)
-		    formated_positions_copy[i][j] += self.positions[(i-move[0])%self.num_rows][(j-move[1])%self.num_cols] * prob_move
+		    if([i,j] not in self.config['walls']):
+		        formated_positions_copy[i][j] += self.positions[(i-move[0])%self.num_rows][(j-move[1])%self.num_cols] * prob_move
 	
 	flattened_positions = list(itertools.chain.from_iterable(formated_positions_copy))
         self.positions = formated_positions_copy

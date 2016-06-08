@@ -76,6 +76,7 @@ class RobotLogger():
 	
     def handle_robot_location(self,message): 
 	self.robot_location = list(message.data)  
+        #print "ROBOT LOCATION: ",self.robot_location
         if self.generate_video:
             data_to_publish = self.convert_list_to_2d_array(self.policy_list[-1])
             image_util.save_image_for_iteration(data_to_publish, self.iteration_number,self.robot_location)

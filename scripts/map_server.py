@@ -38,12 +38,14 @@ class MapServer():
 	) 
         self.pos = self.initialize_position()
         r.seed(self.config['seed'])
-        print "starting pos: ", self.pos
+        print "STARTING POSITION: ", self.pos
         rospy.spin()
 
     def initialize_position(self):
         """Set starting position."""
-        pos = self.config["starting_pos"]
+	start = [r.randint(1,self.config['map_size'][0]-2),r.randint(1,self.config['map_size'][1]-2)]
+        #pos = self.config["starting_pos"]
+	pos = start
         return pos
 
     def handle_data_request(self, request):
