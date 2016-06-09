@@ -1,5 +1,16 @@
 #!/usr/bin/env python
+"""
+This file was pulled from pa1 and modified to handle movement with walls. 
+It also publishes to the /robot_location topic and the /found_goal topic. 
+The /robot_location topic is used by the data transcriber to create the video 
+of the robot moving through the map. The /robot_location topic is not subscribed 
+to by the robot node in the notion that the robot should never know for certain 
+where exactly it is, unless it is at the goal. The /found_goal topic 
+publishes True when the robot has reached the goal. This is used by the robot node
+to stop the simulation. 
 
+
+"""
 import rospy
 import random as r
 import math as m
@@ -43,7 +54,9 @@ class MapServer():
 
     def initialize_position(self):
         """Set starting position."""
-	start = [r.randint(1,self.config['map_size'][0]-2),r.randint(1,self.config['map_size'][1]-2)]
+	start = [0,0]
+	while (start in self.config['walls']):
+	    start = [r.randint(1,self.config['map_size'][0]-2),r.randint(1,self.config['map_size'][1]-2)]
         #pos = self.config["starting_pos"]
 	pos = start
         return pos

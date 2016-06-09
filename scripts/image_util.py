@@ -1,3 +1,10 @@
+"""
+This file was pulled from pa3 and modified to 
+handle robot movement overlayed ontop of the 
+policy images. 
+
+"""
+
 import cv2
 import numpy as np
 import os

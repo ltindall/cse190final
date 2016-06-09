@@ -1,5 +1,11 @@
 #!/usr/bin/env python
+"""
+This file was originally pulled from one of the past assignments. 
+I modified it to combine elements from pa1 and pa3. 
+I modified the code which creates the video so I could have iterations triggered 
+on robot movement instead of changing policies. 
 
+"""
 import rospy
 from cse_190_assi_4.msg import RobotProbabilities,PolicyList,RobotLocation
 from std_msgs.msg import String, Float32, Bool
